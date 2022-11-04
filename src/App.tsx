@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { WeatherInfo } from './Models/MyCustomTypes';
+import DetailsPage from './Screens/DetailsPage';
+import SearchPage from './Screens/SearchPage';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [findCity, setFindCity] = useState(false);
+    const [weatherInfo, setWeatherInfo] = useState<WeatherInfo>();
+
+    useEffect(() => {
+        if (weatherInfo) {
+            setFindCity(true);
+        }
+    }, [weatherInfo]);
+
+    console.log(weatherInfo);
+
+    if (!findCity) {
+        return <SearchPage setWeatherInfo={setWeatherInfo} />;
+    } else {
+        return (
+            <DetailsPage weatherInfo={weatherInfo} setFindCity={setFindCity} />
+        );
+    }
 }
 
 export default App;
