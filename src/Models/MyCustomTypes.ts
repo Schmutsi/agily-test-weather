@@ -2,8 +2,7 @@ export interface WeatherInfo {
     lon: number;
     lat: number;
     cityName: string;
-    dailyInfo: DailyInfo;
-    weekInfos?: DailyInfo[];
+    weekInfos: DailyInfo[];
 }
 
 export interface DailyInfo {
@@ -13,4 +12,5 @@ export interface DailyInfo {
     humidity: number;
     pressure: number;
     windSpeed: number;
+    iconId: string;
 }

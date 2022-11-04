@@ -16,7 +16,7 @@ Comme j'ai trouvé rapidement toutes les fonctionnalités demandées concernant 
 
 Après avoir créé mon projet sur mon IDE Visual Studio Code je l'ai rapidement relié à un repo github (que je maîtrise mieux que gitlab).
 
-## Etape 2 : Architecture du projet
+## Etape 2 : Architecture du projet - 1h30
 
 Mon fichier _index.tsx_ fait appel à _App.tsx_, objet dans lequel je gère les states les plus globaux de l'application et dans lequel je fais appel à mes 2 pages qui sont dans le dossier _Screens_.
 
@@ -32,10 +32,28 @@ Afin de rendre l'app responsive je vais adopter une approche mobile first, et ad
 
 Les feuilles de styles css seront au plus proche des fichiers tsx correspondant dans le même dossier.
 
-## Etape 3 : Page recherche de ville reliée au web server
+## Etape 3 : Page recherche de ville reliée au web server - 1h30
 
 Je gère les variables générale (useState) dans le fichier _App.tsx_ ce qui me permet d'accéder aux données intéressantes dans chaque page. Aussi, pour mes pages _SearchPage.tsx_ et _DetailsPage.tsx_ j'ai mis en argument des fonctions pour modifier les variables du state, je suis ainsi libre de faire mes modifications sur les variables du state dans les fichiers des pages.
 
 Par choix, je n'ai pas vraiment fait d'état globaux puisque mes variables ne sont pas accessibles depuis toutes les pages (_redux_ le permettrai). Mais comme l'architecture du projet est assez basique, je ne voulais pas complexifier la tâche.
 
-Pour effectuer la recherche dela méthéo de la ville, il faut valider le contenu de l'input en appuyant sur entrée. Je fais appel à une fonction de service dans laquelle j'utilise _axio_ pour appeler à l'api _openweathermap_. Avec la clef api donnée et le nom de la ville je peux avoir des informations intéressantes depuis ce server web. Dès lors je récupe les données qui m'intéressent et les stocks dans le state de mon app. Si la ville n'est pas trouvée je l'indique en message d'erreur.
+Pour effectuer la recherche de la méthéo de la ville, il faut valider le contenu de l'input en appuyant sur entrée. Je fais appel à une fonction de service dans laquelle j'utilise _axio_ pour appeler à l'api _openweathermap_. Avec la clef api donnée et le nom de la ville je peux avoir des informations intéressantes depuis ce server web. Dès lors je récupe les données qui m'intéressent et les stocks dans le state de mon app. Si la ville n'est pas trouvée je l'indique en message d'erreur.
+
+## Etape 4 : Page de l'affichage de la météo 4h
+
+J'ai commencé par afficher la météo du jour et de la ville choisie avec les informations récupérées sur l'API dans une carte principale. Les informations sont faciles à récupérer mais il faut s'appliquer sur l'endroit ou l'on met chaque informations avec les bonnes propriétés css.
+
+Puis lorsqu'il a fallu récupérer les prévisions météo pour les 7 jours suivant ce n'a pas été si simple. En effet, il semblereai qu'on soit obligé de passé par une requête avec la latitude et la longitude de la ville, données que l'on doit donc déjà récupérer au préalable.
+
+J'ai fait donc 2 requêtes axio à l'API l'une après l'autre. Puis j'ai récupérer toutes les données utiles pour notre application et les ai enregistrées dans le state.
+
+On peut remarquer que dans mon interface _WheatherInfo_ j'ai stocké les informations météo dans une liste d'interface _DailyInfo_. Cette liste est ordonnée, c'est à dire que le premier élément est la météo du jour actuel et le dernier élément la météo dans du même jour mais de la semaine suivante.
+
+Je me suis ensuite attardé à l'affichage des icônes météo en faisant une simple requête à l'API pour récupérer l'image. Cette fois-ci je n'ai pas mis la requête dans le dossier des services, mais ai mis le lien de l'image directement dans la balise _<img />_.
+
+Concernant le changement des informations dans la carte principale lors d'un clic sur une autre carte ; j'ai implémenté le système à la fois en fonction de ma compréhension de la consigne et en fonction de la manière qui me semblait la plus instinctive. C'est à dire que je remets l'ancienne carte principale dans la liste des autres cartes toujours dans l'ordre chronologique.
+
+## Etape 5 : afficher une image en arrière-plan dynamique en fonction du lieu choisi
+
+Je pense utiliser l'api de Google Place Search.

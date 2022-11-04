@@ -1,0 +1,70 @@
+.DetailsPage {
+    height: 100vh;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: yellowgreen;
+}
+
+@media only screen and (max-width: 768px) {
+    .DetailsPage {
+        padding-left: 10px;
+        padding-right: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .ColumnLeft {
+        width: 100%;
+    }
+    .ColumnRight {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 400px) {
+    .DetailsPage {
+        height: auto;
+    }
+}
+
+.ColumnLeft {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.ButtonBack {
+    background-color: var(--primarycolor);
+    color: white;
+    font-weight: bolder;
+    font-size: large;
+    text-align: center;
+    padding-bottom: 3px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.CityName {
+    color: var(--primarycolor);
+    font-size: x-large;
+    font-weight: bolder;
+    text-transform: capitalize;
+    align-self: center;
+}
+
+.ColumnRight {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}

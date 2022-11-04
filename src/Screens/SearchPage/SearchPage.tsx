@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getWeatherCityService } from '../Services/weather.services';
+import { getWeatherCityService } from '../../Services/weather.services';
 import './searchPage.css';
 
 const SearchPage = (props: { setWeatherInfo: any }) => {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { WeatherInfo } from './Models/MyCustomTypes';
-import DetailsPage from './Screens/DetailsPage';
-import SearchPage from './Screens/SearchPage';
+import DetailsPage from './Screens/DetailsPage/DetailsPage';
+import SearchPage from './Screens/SearchPage/SearchPage';
 
 function App() {
     const [findCity, setFindCity] = useState(false);
@@ -13,8 +13,6 @@ function App() {
             setFindCity(true);
         }
     }, [weatherInfo]);
-
-    console.log(weatherInfo);
 
     if (!findCity) {
         return <SearchPage setWeatherInfo={setWeatherInfo} />;

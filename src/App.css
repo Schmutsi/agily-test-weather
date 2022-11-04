@@ -1,3 +1,8 @@
 :root {
     --primarycolor: #134601;
 }
+
+h1,
+p {
+    color: white;
+}

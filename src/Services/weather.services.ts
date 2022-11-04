@@ -8,31 +8,15 @@ export const getWeatherCityService = async (cityName: String) => {
     const baseURL = `${apiURL}weather?q=${cityName}&appid=${APIkey}`;
     return await axios
         .get(baseURL)
-        .then((response) => {
-            console.log(response.status);
+        .then(async (response) => {
             if (response.status === 200) {
-                console.log(response.data);
-                const data = response.data;
-                return {
-                    lon: data.coord.lon,
-                    lat: data.coord.lat,
-                    cityName: data.name,
-                    dailyInfo: {
-                        date: new Date(data.dt * 1000).toLocaleDateString(
-                            'fr',
-                            {
-                                weekday: 'long',
-                                day: 'numeric',
-                                month: 'long',
-                            }
-                        ),
-                        dayTemperature: 11,
-                        nightTemperature: 8,
-                        humidity: 14,
-                        pressure: 1414,
-                        windSpeed: 3,
-                    } as DailyInfo,
-                } as WeatherInfo;
+                const lon = response.data.coord.lon;
+                const lat = response.data.coord.lat;
+                return await getWeatherCityPrevisionsService(
+                    lon,
+                    lat,
+                    cityName
+                );
             }
         })
         .catch((error) => {
@@ -40,4 +24,61 @@ export const getWeatherCityService = async (cityName: String) => {
                 return `La ville ${cityName} n'a pas été trouvée`;
             }
         });
+};
+
+const getWeatherCityPrevisionsService = async (
+    lon: number,
+    lat: number,
+    cityName: String
+) => {
+    const baseURL = `${apiURL}onecall?lat=${lat}&lon=${lon}&exclude=current,hourly,minutely,alerts&units=metric&appid=${APIkey}`;
+    return await axios
+        .get(baseURL)
+        .then((response) => {
+            if (response.status === 200) {
+                const data = response.data;
+                return {
+                    lon: lon,
+                    lat: lat,
+                    cityName: cityName,
+                    weekInfos: getWeekInfos(data.daily) as DailyInfo[],
+                } as WeatherInfo;
+            }
+        })
+        .catch((error) => {
+            if (error.response.status === 404) {
+                return `error latitude longitude`;
+            }
+        });
+};
+
+const getWeekInfos = (
+    daily: {
+        dt: any;
+        temp: { day: any; night: any };
+        humidity: any;
+        pressure: any;
+        wind_speed: any;
+        weather: { icon: any }[];
+    }[]
+) => {
+    const weekInfos = [] as unknown as DailyInfo[];
+    // eslint-disable-next-line array-callback-return
+    daily.map((day) => {
+        const dayInfo = {
+            date: new Date(day.dt * 1000).toLocaleDateString('fr', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+            }),
+            dayTemperature: day.temp.day,
+            nightTemperature: day.temp.night,
+            humidity: day.humidity,
+            pressure: day.pressure,
+            windSpeed: day.wind_speed,
+            iconId: day.weather[0].icon,
+        } as DailyInfo;
+        weekInfos.push(dayInfo);
+    });
+    return weekInfos;
 };
