@@ -26,7 +26,7 @@ const PrincipalCard = (props: {
                     <div>
                         Nuit : {props.dailyInfo.nightTemperature.toFixed(1)}°C
                     </div>
-                    <div>Nuit : {props.dailyInfo.humidity.toFixed()}%</div>
+                    <div>Humidité : {props.dailyInfo.humidity.toFixed()}%</div>
                 </div>
                 <div className="ColumnBodyCard">
                     <div>

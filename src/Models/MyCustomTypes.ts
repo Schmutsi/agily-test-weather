@@ -2,6 +2,7 @@ export interface WeatherInfo {
     lon: number;
     lat: number;
     cityName: string;
+    countryCode: string;
     weekInfos: DailyInfo[];
 }
 

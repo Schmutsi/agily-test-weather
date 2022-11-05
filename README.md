@@ -1,6 +1,6 @@
-# Test technique fullstack - _Front-A-exercice 1_
+# Test technique fullstack - **Front-A-exercice 1**
 
-_Pierre Schmutz - PFE Agily - 04/11/2022_
+_Pierre Schmutz - PFE Agily - 03/11/2022 et 04/11/2022_
 
 ## Etape 1 : Choisir les technos et initialisation du projet - 1h
 
@@ -15,6 +15,8 @@ J'ai passé la majorité du temps de cette étape à chercher comment récupére
 Comme j'ai trouvé rapidement toutes les fonctionnalités demandées concernant les informations météorologique (jour J et les 7 jours suivants) sur l'API openweathermap, c'est donc celle ci que j'utiliserai.
 
 Après avoir créé mon projet sur mon IDE Visual Studio Code je l'ai rapidement relié à un repo github (que je maîtrise mieux que gitlab).
+
+---
 
 ## Etape 2 : Architecture du projet - 1h30
 
@@ -32,6 +34,8 @@ Afin de rendre l'app responsive je vais adopter une approche mobile first, et ad
 
 Les feuilles de styles css seront au plus proche des fichiers tsx correspondant dans le même dossier.
 
+---
+
 ## Etape 3 : Page recherche de ville reliée au web server - 1h30
 
 Je gère les variables générale (useState) dans le fichier _App.tsx_ ce qui me permet d'accéder aux données intéressantes dans chaque page. Aussi, pour mes pages _SearchPage.tsx_ et _DetailsPage.tsx_ j'ai mis en argument des fonctions pour modifier les variables du state, je suis ainsi libre de faire mes modifications sur les variables du state dans les fichiers des pages.
@@ -39,6 +43,8 @@ Je gère les variables générale (useState) dans le fichier _App.tsx_ ce qui me
 Par choix, je n'ai pas vraiment fait d'état globaux puisque mes variables ne sont pas accessibles depuis toutes les pages (_redux_ le permettrai). Mais comme l'architecture du projet est assez basique, je ne voulais pas complexifier la tâche.
 
 Pour effectuer la recherche de la méthéo de la ville, il faut valider le contenu de l'input en appuyant sur entrée. Je fais appel à une fonction de service dans laquelle j'utilise _axio_ pour appeler à l'api _openweathermap_. Avec la clef api donnée et le nom de la ville je peux avoir des informations intéressantes depuis ce server web. Dès lors je récupe les données qui m'intéressent et les stocks dans le state de mon app. Si la ville n'est pas trouvée je l'indique en message d'erreur.
+
+---
 
 ## Etape 4 : Page de l'affichage de la météo 4h
 
@@ -50,10 +56,37 @@ J'ai fait donc 2 requêtes axio à l'API l'une après l'autre. Puis j'ai récup�
 
 On peut remarquer que dans mon interface _WheatherInfo_ j'ai stocké les informations météo dans une liste d'interface _DailyInfo_. Cette liste est ordonnée, c'est à dire que le premier élément est la météo du jour actuel et le dernier élément la météo dans du même jour mais de la semaine suivante.
 
-Je me suis ensuite attardé à l'affichage des icônes météo en faisant une simple requête à l'API pour récupérer l'image. Cette fois-ci je n'ai pas mis la requête dans le dossier des services, mais ai mis le lien de l'image directement dans la balise _<img />_.
+Je me suis ensuite attardé à l'affichage des icônes météo en faisant une simple requête à l'API pour récupérer l'image. Cette fois-ci je n'ai pas mis la requête dans le dossier des services, mais ai mis le lien de l'image directement dans la balise _img_.
 
 Concernant le changement des informations dans la carte principale lors d'un clic sur une autre carte ; j'ai implémenté le système à la fois en fonction de ma compréhension de la consigne et en fonction de la manière qui me semblait la plus instinctive. C'est à dire que je remets l'ancienne carte principale dans la liste des autres cartes toujours dans l'ordre chronologique.
 
-## Etape 5 : afficher une image en arrière-plan dynamique en fonction du lieu choisi
+Enfin j'ai du refaire des retouches afin de rendre l'application responsive une fois toutes les cartes créées.
 
-Je pense utiliser l'api de Google Place Search.
+---
+
+## Etape 5 : afficher une image en arrière-plan dynamique en fonction du lieu choisi - 2h30
+
+J'ai eu plusieurs idées pour trouver une image du lieu recherché que j'énonce ci-dessous.
+
+### Google Places API
+
+Cette API de Google rempli parfaitement cette fonction de trouver une photo d'un lieu demandé. Malheureusement, après avoir créé un compte et une clef API je me suis rendu compte que je ne pourrai pas utiliser cette API puisqu'il faut que j'associe le projet de ma clef API avec un compte de facturation. J'ai donc abandonné cette piste.
+
+### Scrapper Wikipédia
+
+Sachant que toutes les villes du monde ou presque sont présentent sur Wikipédia, il serait possible de scrapper l'URL de la page de la ville correspondante par exemple pour paris _https://fr.wikipedia.org/wiki/Paris_. Puis en récupérant le code source de la page, on peut s'arranger pour obtenir une image de la ville en question en s'intéressant aux balises _img_.
+
+### Avoir une photo par continent stocké en dur dans le projet
+
+C'est une solution de secours qui permet quand même d'obtenir un background dynamique comme demandé dans la consigne.
+J'ai pu récupérer le _code du pays alpha2_ depuis l'API openweathermap, et grâce au package _@brixtol/country-continent_ que j'ai installé je peux obtenir le continent du pays. De cette façon je peux donc associer à chaque ville l'image de son continent correspondant.
+
+---
+
+## Pistes d'amélioration - 30min
+
+Bien sûr de nombreuses pistes d'améliorations pourraient être envisagées pour répondre encore mieux à l'exercice, j'en ai identifié 3 ci-dessous :
+
+-   retravailler sur l'étape 5 pour avoir une image de background différente pour chaque recherche de lieu.
+-   Le design pourrait être plus travaillé (pour être encore plus fidèle au modèle) avec des polices en particulier et une meilleure disposition dans l'espace des éléments.
+-   Le coté responsive de l'application a aussi de nombreuses pistes d'améliorations envisageables.

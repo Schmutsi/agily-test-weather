@@ -12,10 +12,12 @@ export const getWeatherCityService = async (cityName: String) => {
             if (response.status === 200) {
                 const lon = response.data.coord.lon;
                 const lat = response.data.coord.lat;
+                const countryCode = response.data.sys.country;
                 return await getWeatherCityPrevisionsService(
                     lon,
                     lat,
-                    cityName
+                    cityName,
+                    countryCode
                 );
             }
         })
@@ -29,7 +31,8 @@ export const getWeatherCityService = async (cityName: String) => {
 const getWeatherCityPrevisionsService = async (
     lon: number,
     lat: number,
-    cityName: String
+    cityName: String,
+    countryCode: String
 ) => {
     const baseURL = `${apiURL}onecall?lat=${lat}&lon=${lon}&exclude=current,hourly,minutely,alerts&units=metric&appid=${APIkey}`;
     return await axios
@@ -41,6 +44,7 @@ const getWeatherCityPrevisionsService = async (
                     lon: lon,
                     lat: lat,
                     cityName: cityName,
+                    countryCode: countryCode,
                     weekInfos: getWeekInfos(data.daily) as DailyInfo[],
                 } as WeatherInfo;
             }
